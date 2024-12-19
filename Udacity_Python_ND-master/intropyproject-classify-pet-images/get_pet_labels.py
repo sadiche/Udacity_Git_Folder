@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/get_pet_labels.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:                                  
+# PROGRAMMER: Sadiche Suprayalu 
+# DATE CREATED:  18-Dec-2024                                
 # REVISED DATE: 
 # PURPOSE: Create the function get_pet_labels that creates the pet labels from 
 #          the image's filename. This function inputs: 
@@ -40,6 +40,37 @@ def get_pet_labels(image_dir):
       List. The list contains for following item:
          index 0 = pet image label (string)
     """
+    # print(image_dir)
+    filename_list = listdir(image_dir)
+    # print(f"\nPrints All filenames from folder {image_dir}")
+    # for idx in range(0, len(filename_list), 1):
+    #   print("{:2d} file: {:>25}".format(idx + 1, filename_list[idx]) )
+    
+    results_dic = dict()
+    # Processes through each file in the directory, extracting only the words
+    # of the file that contain the pet image label
+    for idx in range(0, len(filename_list), 1):
+       # Skips file if starts with . (like .DS_Store of Mac OSX) because it 
+       # isn't an pet image file
+        # print(filename_list[idx])
+        if filename_list[idx][0] != ".":
+           # Creates temporary label variable to hold pet label name extracted 
+           pet_label = ""
+          #  print(filename_list[idx].rsplit('.',1)[0]) 
+           pet_label = filename_list[idx].rsplit('.',1)[0] 
+           pet_label = " ".join([word.lower() for word in pet_label.split('_') if word.isalpha()])
+          #  print(pet_label)
+           
+
+        if filename_list[idx] not in results_dic:
+              results_dic[filename_list[idx]] = [pet_label]
+        else:
+              print("** Warning: Duplicate files exist in directory:",filename_list[idx])       
+
     # Replace None with the results_dic dictionary that you created with this
     # function
-    return None
+    # print(results_dic)
+    return results_dic
+
+
+# get_pet_labels('pet_images1')
